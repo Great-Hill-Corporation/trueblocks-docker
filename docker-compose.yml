@@ -5,8 +5,9 @@ volumes:
 
 services:
   trueblocks:
-    build: .
-    image: trueblocks:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: trueblocks.dnp.dappnode.eth
     restart: always
     logging:
@@ -19,4 +20,31 @@ services:
     ports:
       - "${TRUEBLOCKS_PORT}:8080"
     env_file:
-      - trueblocks.local.env #Change for trueblocks.public.dappnode.eth.env for dAppNodeDeployment
+      - docker.local.env
+    ipc: host
+    
+### this container will be used for traffic tunneling to an archive node
+## feel free to comment it out if you are using your own node
+  phantom_rpc:
+    build:
+      context: .
+      dockerfile: phantom_rpc/Dockerfile
+    env_file: rpc.env
+    command: ssh -N -v ${RPC_USER}@${RPC_IP} -p ${RPC_PORT} -L 36963:localhost:8545 2>/dev/null >/dev/null &
+    ipc: host
+    ports:
+      - 8545:8545
+    depends_on:
+      - trueblocks
+    volumes:
+      - ~/.ssh/wildmolasses:/.ssh/id_rsa
+
+  explorer:
+    build:
+      context: .
+      dockerfile: node/Dockerfile
+    command: yarn start
+    tty: true
+    stdin_open: true
+    ports:
+      - 3002:3002
