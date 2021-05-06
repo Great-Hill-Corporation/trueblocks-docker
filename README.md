@@ -1,4 +1,4 @@
-# TrueBlocks Indexer on Docker
+# TrueBlocks Docker
 <i>last updated: 2021-02-22</i>
 
 ![Image Logo](https://avatars1.githubusercontent.com/u/19167586?s=200&v=4)
