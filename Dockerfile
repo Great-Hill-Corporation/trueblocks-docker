@@ -10,9 +10,9 @@ RUN apk add glibc-2.28-r0.apk
 
 WORKDIR /root
 
-ADD https://api.github.com/repos/Great-Hill-Corporation/trueblocks-core/git/refs/heads/docker-build version.json
-RUN git clone -b 'docker-build' --single-branch --progress --depth 1 \
-        https://github.com/Great-Hill-Corporation/trueblocks-core.git \
+ADD https://api.github.com/repos/TrueBlocks/trueblocks-core/git/refs/heads/master version.json
+RUN git clone -b 'master' --single-branch --progress --depth 1 \
+        https://github.com/TrueBlocks/trueblocks-core.git \
         /root/quickBlocks-src
 
 RUN cd /root/quickBlocks-src && \
@@ -33,7 +33,7 @@ RUN apk add --no-cache libcurl python3 python3-dev procps bash
 COPY --from=builder /root/trueblocks-explorer /root/trueblocks-explorer
 COPY --from=builder /root/quickBlocks-src/bin /usr/local/bin
 COPY --from=builder /root/.quickBlocks /root/.quickBlocks
-COPY --from=builder /root/trueblocks-explorer/api /root
+# COPY --from=builder /root/trueblocks-explorer/api /root
 
 COPY trueblocks.entrypoint.sh /root
 
