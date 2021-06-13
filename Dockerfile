@@ -16,24 +16,18 @@ RUN git clone -b 'master' --single-branch --progress --depth 1 \
         /root/quickBlocks-src
 
 RUN cd /root/quickBlocks-src && \
-        mkdir -v build /root/.quickBlocks && \
+        mkdir -v -p build /root/.local/share/trueblocks && \
         cd build && \
         bash ../src/other/install/docker/clean_for_docker.sh && \
         cmake ../src && \
         make -j 4
 
-RUN git clone -b 'master' --single-branch --progress --depth 1 \
-        https://github.com/TrueBlocks/trueblocks-explorer.git \
-        /root/trueblocks-explorer
-
 FROM node:12.18.4-alpine3.12
 WORKDIR /root
 
 RUN apk add --no-cache libcurl python3 python3-dev procps bash
-COPY --from=builder /root/trueblocks-explorer /root/trueblocks-explorer
 COPY --from=builder /root/quickBlocks-src/bin /usr/local/bin
-COPY --from=builder /root/.quickBlocks /root/.quickBlocks
-# COPY --from=builder /root/trueblocks-explorer/api /root
+COPY --from=builder /root/.local/share/trueblocks /root/.local/share/trueblocks
 
 COPY trueblocks.entrypoint.sh /root
 
@@ -43,7 +37,6 @@ RUN yarn install 2>/dev/null | grep -v fsevent && \
 # To make the shell easier to use
 RUN apk add curl nano
 
-EXPOSE 80
+EXPOSE 8080
 
 ENTRYPOINT bash /root/trueblocks.entrypoint.sh
-

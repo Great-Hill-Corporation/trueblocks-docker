@@ -1,4 +1,4 @@
-# TrueBlocks Docker
+# TrueBlocks Indexer on Docker
 <i>last updated: 2021-02-22</i>
 
 ![Image Logo](https://avatars1.githubusercontent.com/u/19167586?s=200&v=4)
@@ -32,7 +32,7 @@ trueblocks-docker is a docker image containing an installation of indexer and a 
 
 ## Installation
 
-The following instructions are for building on your local machine. Running on DappNode? See 
+The following instructions are for building on your local machine. Running on DappNode? See
 our [Dappnode Instructions](#dappnode-instructions).
 
 ```
@@ -44,7 +44,7 @@ docker-compose build
 ## Before running
 
 Before you bring the TrueBlocks docker container up, take the time to configure the following options:
-- what port do you want to run the trueblocks api server on? Set this in .env file. Right now, the ports line reads 80:80. If you want to change this from port 80 to, say, 8181, then change this to 8181:80.
+- what port do you want to run the trueblocks api server on? Set this in .env file. Right now, the ports line reads 8080. If you want to change this from port 8080 to, say, 8181, then change this to 8181.
 - If you are running TrueBlocks on your computer, copy trueblocks.local.env.example as trueblocks.local.env.
 - What is your node's RPC endpoint? Set your RPC endpoint in the **trueblocks.local.env**, or if running on DAppNode **trueblocks.public.dappnode.eth.env**, file to `RPC_PROVIDER=http://your-rpc-provider:port`. Note that finding your RPC endpoint can initially be quite difficult (see [What is my RPC endpoint?](#what-is-my-rpc-endpoint)).
 - Now you're ready to run trueblocks!
@@ -152,7 +152,7 @@ You can run a node with the [DNP_ETHCHAIN](https://github.com/dappnode/DNP_ETHCH
 Otherwise, in order for TrueBlocks to work properly, you need to start parity with at least the following options:
 
 ```
-parity --tracing on --jsonrpc-cors all --jsonrpc-hosts all --db-compaction=ssd 
+parity --tracing on --jsonrpc-cors all --jsonrpc-hosts all --db-compaction=ssd
 ```
 
 `--db-compaction=ssd` is optional, but Parity recommends using an SSD drive for storing its data. Enabling `--tracing on` requires a re-sync of your node.
